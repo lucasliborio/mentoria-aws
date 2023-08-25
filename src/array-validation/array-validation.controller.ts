@@ -10,7 +10,7 @@ export class ArrayValidationController {
   @Post('/validate')
   @HttpCode(200)
   create(@Body() arrayInput: any):ArrayValidationOutput {
-    console.log('ARRAY INPUT', arrayInput.body)
+    console.log('ARRAY INPUT', arrayInput)
     return this.arrayValidationService.validate(arrayInput);
   }
 }
