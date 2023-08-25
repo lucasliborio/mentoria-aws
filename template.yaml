@@ -9,7 +9,7 @@ Resources:
   MentoriaApi:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: ./main.handler
+      Handler: ./src/main.handler
       Runtime: nodejs18.x
       Architectures:
       - x86_64
