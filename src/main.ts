@@ -22,7 +22,7 @@ async function createExpressApp(
 async function bootstrap(): Promise<Server> {
   const expressApp = express();
   const app = await createExpressApp(expressApp);
-  app.use(json())
+  
   await app.init();
   return createServer(expressApp);
 }
