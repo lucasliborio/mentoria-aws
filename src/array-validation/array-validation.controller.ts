@@ -1,4 +1,4 @@
-import { Controller,Post, HttpCode, Request } from '@nestjs/common';
+import { Controller,Post, HttpCode, Request, Body } from '@nestjs/common';
 import { ArrayValidationService } from './array-validation.service';
 import {  ArrayValidationInput, ArrayValidationOutput } from './entities/array-validation.entity';
 
@@ -9,7 +9,7 @@ export class ArrayValidationController {
 
   @Post('/validate')
   @HttpCode(200)
-  create(@Request() arrayInput: any):ArrayValidationOutput {
+  create(@Body() arrayInput: any):ArrayValidationOutput {
     console.log('ARRAY INPUT', arrayInput.body)
     return this.arrayValidationService.validate(arrayInput);
   }
