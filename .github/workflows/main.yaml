@@ -39,7 +39,7 @@ jobs:
 
       - name: Install dependencies and run tests
         run: |
-          npm ci
+          npm install
           npm run test
 
       - name: Building SAM
