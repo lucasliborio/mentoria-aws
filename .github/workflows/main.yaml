@@ -30,7 +30,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v2
         with:
           role-to-assume: ${{ vars.DEPLOYMENT_ROLE }}
-          aws-region: ${{ vars.DEPLOYMENT_REGION }}
+          aws-region: sa-east-1
 
       - name: Install SAM
         uses: aws-actions/setup-sam@v2
@@ -38,16 +38,15 @@ jobs:
           sam-cli-version: latest
 
       - name: Install dependencies and run tests
-        working-directory: ./lambda-cicd/getAllUsersFunction
         run: |
           npm ci
           npm run test
 
       - name: Building SAM
-        run: sam build --template ./lambda-cicd/template.yaml
+        run: sam build --template ./template.yaml
       
       - name: Copy node_modules to SAM build directory
         run: cp -r node_modules .aws-sam/build/MentoriaApi
 
       - name: Deploying SAM
-        run: sam deploy --template-file .aws-sam/build/template.yaml --stack-name lambda-cicd --capabilities CAPABILITY_IAM --region sa-east-1 --resolve-s3
+        run: sam deploy --template-file .aws-sam/build/template.yaml --stack-name aws-mentoria --capabilities CAPABILITY_IAM --region sa-east-1 --resolve-s3
