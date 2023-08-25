@@ -29,7 +29,7 @@ export async function handler(event: any, context: Context): Promise<Response> {
     const server = await bootstrap();
     cachedServer = server;
   }
-  console.log('-------MEU EVENT', event)
+  console.log('-------MEU EVENT ', event)
   console.log('-------MEU CONTEXT',context)
   return proxy(cachedServer, event, context, 'PROMISE').promise;
 }
