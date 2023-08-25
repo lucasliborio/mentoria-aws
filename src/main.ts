@@ -1,18 +1,18 @@
 import { NestFactory } from '@nestjs/core';
 import { ExpressAdapter } from '@nestjs/platform-express';
 import { INestApplication } from '@nestjs/common';
-import { AppModule } from './app.module';
 import { Express } from 'express';
 import { Server } from 'http';
-import { Context } from 'aws-lambda';
+import { APIGatewayProxyEvent, Context } from 'aws-lambda';
 import { createServer, proxy, Response } from 'aws-serverless-express';
 import express from 'express';
+import { ArrayValidationModule } from './array-validation/array-validation.module';
 let cachedServer: Server;
 async function createExpressApp(
   expressApp: Express,
 ): Promise<INestApplication> {
   const app = await NestFactory.create(
-    AppModule,
+    ArrayValidationModule,
     new ExpressAdapter(expressApp),
   );
   return app;
@@ -24,12 +24,12 @@ async function bootstrap(): Promise<Server> {
   await app.init();
   return createServer(expressApp);
 }
-export async function handler(event: any, context: Context): Promise<Response> {
+export async function handler(event: APIGatewayProxyEvent, context: Context): Promise<Response> {
   if (!cachedServer) {
     const server = await bootstrap();
     cachedServer = server;
   }
-  console.log('-------MEU EVENT ', event)
-  console.log('-------MEU CONTEXT',context)
+  console.log('EVENTO BODY', event.body)
+  
   return proxy(cachedServer, event, context, 'PROMISE').promise;
 }
